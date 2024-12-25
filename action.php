@@ -10,6 +10,15 @@
     }
 ?>
 <?php
+    function Entries($conn)
+    {
+        $sql="SELECT COUNT(*) as entries FROM users";
+        $stmt=$conn->prepare($sql);
+        $stmt->execute();
+        $res=$stmt->get_result();
+        $rows=$res->fetch_assoc();
+        return $rows;  
+    } 
     function showdata($conn){
         $sql="SELECT * FROM users ORDER BY id DESC LIMIT 1";
         $stmt=$conn->prepare($sql);
@@ -53,8 +62,18 @@
     }
     else if($_SERVER["REQUEST_METHOD"]=="GET")
     {
-        $res=showdataAll($conn);
-        echo json_encode($res);
+        if(isset($_GET["type"]))
+        {
+            $res=Entries($conn);
+            // print_r($res);
+            echo json_encode($res);
+        }
+        else
+        {
+            $res=showdataAll($conn);
+            echo json_encode($res);
+        }
+       
     }
     else if($_SERVER["REQUEST_METHOD"]=="PUT")
     {

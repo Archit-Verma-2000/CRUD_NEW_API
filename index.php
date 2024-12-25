@@ -328,13 +328,14 @@ function getFetchCall() {
  }
 
 function updatePaginationButtons(){
-    fetch(`${url}/action.php`, {
+    fetch(`${url}/action.php?type=page`, {
         method: "get",
         headers: {
             "Content-type": "application/json",
         }
     }).then((response) => response.json()).then((data) => {
-
+        entries=data.entries;
+        console.log(entries);
     });
 }
 
